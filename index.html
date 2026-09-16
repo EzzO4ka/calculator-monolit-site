@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>МОНОЛИТ — Российский Национальный Патриотический Калькулятор</title>
+  <meta name="description" content="Российский суверенный патриотический калькулятор Монолит. Точно, надёжно, по-нашему." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1C1E22;
+      --surface: #26292E;
+      --text-main: #D8DADF;
+      --text-muted: #8E95A0;
+      --blue-calc: #2E4FB5;
+      --blue-hover: #3b5ed6;
+      --red-control: #C0392B;
+      --red-hover: #d94130;
+      --steel: #5A6672;
+      --gold: #D4AF37;
+      --font-heading: 'Golos Text', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Верхняя полоса триколора */
+    .top-tricolor {
+      display: flex;
+      height: 7px;
+      width: 100%;
+    }
+    .top-tricolor .w { background: #FFFFFF; flex: 1; }
+    .top-tricolor .b { background: #0039A6; flex: 1; }
+    .top-tricolor .r { background: #D52B1E; flex: 1; }
+
+    /* SVG-флаг России */
+    .ru-flag {
+      display: inline-block;
+      width: 22px;
+      height: 15px;
+      border-radius: 2px;
+      overflow: hidden;
+      vertical-align: middle;
+      box-shadow: 0 0 1px rgba(0,0,0,0.8);
+      flex-shrink: 0;
+    }
+    .ru-flag svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Шапка сайта */
+    header {
+      background: var(--surface);
+      border-bottom: 2px solid var(--steel);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-box {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .brand-logo-frame {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      background: #111;
+      border: 1px solid var(--steel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .brand-logo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .brand-titles h1 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-titles span {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+      display: block;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-btn {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 10px 18px;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .nav-btn:active {
+      transform: scale(0.97);
+    }
+    .nav-btn-red {
+      background: var(--red-control);
+      color: #fff;
+      border: 1px solid #e04a3a;
+    }
+    .nav-btn-red:hover {
+      background: var(--red-hover);
+    }
+    .nav-btn-git {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-main);
+      border: 1px solid var(--steel);
+    }
+    .nav-btn-git:hover {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+    }
+
+    /* Обложка с флагом России */
+    .banner-flag {
+      width: 100%;
+      height: 380px;
+      position: relative;
+      background: #000;
+      overflow: hidden;
+      border-bottom: 3px solid var(--steel);
+    }
+    .banner-flag img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: contrast(1.15) brightness(0.85);
+    }
+    .banner-flag-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(28,30,34,0.1) 0%, rgba(28,30,34,0.7) 65%, var(--bg) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 30px;
+    }
+    .banner-flag-badge {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid var(--steel);
+      padding: 8px 18px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #FFF;
+    }
+
+    /* Герой-блок */
+    .hero-zone {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 50px 24px 70px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-pretitle {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.08;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 20px;
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 34px;
+      max-width: 620px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .btn-action {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 16px 32px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-action:active {
+      transform: scale(0.97);
+    }
+    .btn-action-red {
+      background: var(--red-control);
+      color: #fff;
+      border: 1px solid #e74c3c;
+      box-shadow: 0 4px 20px rgba(192, 57, 43, 0.45);
+    }
+    .btn-action-red:hover {
+      background: var(--red-hover);
+    }
+    .btn-action-blue {
+      background: var(--blue-calc);
+      color: #fff;
+      border: 1px solid #4a6fe0;
+    }
+    .btn-action-blue:hover {
+      background: var(--blue-hover);
+    }
+
+    /* Карточка с обложкой монолита */
+    .hero-cover-card {
+      background: var(--surface);
+      border: 2px solid rgba(90, 102, 114, 0.4);
+      border-radius: 6px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .hero-cover-card img {
+      width: 100%;
+      max-width: 440px;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+      margin: 0 auto;
+    }
+    .hero-cover-label {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(90, 102, 114, 0.3);
+      padding-top: 10px;
+    }
+
+    /* Спонсорский блок «Единая Россия» */
+    .sponsor-section {
+      max-width: 1240px;
+      margin: 20px auto 40px;
+      padding: 0 24px;
+    }
+    .sponsor-panel {
+      background: linear-gradient(90deg, rgba(0, 57, 166, 0.28) 0%, rgba(38, 41, 46, 0.95) 100%);
+      border: 2px solid #0039A6;
+      border-left: 8px solid #0039A6;
+      border-radius: 4px;
+      padding: 26px 30px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .sponsor-logo-box {
+      width: 160px;
+      height: 90px;
+      flex-shrink: 0;
+      background: #0039A6;
+      border: 1px solid var(--steel);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sponsor-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sponsor-info h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sponsor-info p {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    /* Легенда триколора */
+    .tricolor-ribbon {
+      background: var(--surface);
+      border-top: 1px solid rgba(90, 102, 114, 0.3);
+      border-bottom: 1px solid rgba(90, 102, 114, 0.3);
+      padding: 22px 0;
+    }
+    .tricolor-ribbon-grid {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .tricolor-ribbon-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(28, 30, 34, 0.7);
+      padding: 14px 18px;
+      border: 1px solid rgba(90, 102, 114, 0.25);
+      border-radius: 4px;
+    }
+    .tricolor-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Общие секции */
+    section {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 70px 24px;
+    }
+    .section-head {
+      margin-bottom: 36px;
+    }
+    .section-head h2 {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-head p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* Сетка режимов */
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .mode-card {
+      background: var(--surface);
+      border: 1px solid rgba(90, 102, 114, 0.3);
+      border-radius: 4px;
+      padding: 22px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .mode-card:hover {
+      border-color: var(--blue-calc);
+      transform: translateY(-2px);
+    }
+    .mode-serial {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .mode-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .mode-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Блок доверия и особенностей */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .trust-card {
+      background: var(--surface);
+      border-left: 4px solid var(--blue-calc);
+      padding: 22px;
+      border-radius: 0 4px 4px 0;
+    }
+    .trust-card.highlight-card {
+      border-left-color: var(--red-control);
+      background: linear-gradient(180deg, rgba(192, 57, 43, 0.1) 0%, var(--surface) 100%);
+    }
+    .trust-card.highlight-card-gold {
+      border-left-color: var(--gold);
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, var(--surface) 100%);
+    }
+    .trust-card h4 {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .trust-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Платформы */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .platform-card {
+      background: var(--surface);
+      border: 1px solid rgba(90, 102, 114, 0.3);
+      border-radius: 4px;
+      padding: 24px;
+      text-align: center;
+    }
+    .platform-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .platform-card .status-ok {
+      font-family: var(--font-mono);
+      color: #4cd137;
+      font-weight: 700;
+    }
+    .platform-card.ios-card {
+      background: #202226;
+      border: 1px dashed var(--steel);
+      cursor: not-allowed;
+    }
+    .platform-card.ios-card .status-no {
+      font-family: var(--font-heading);
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      font-weight: 900;
+      margin-top: 6px;
+    }
+
+    /* Символы суверенитета: Герб и Президент */
+    .honor-section {
+      background: #181a1d;
+      border-top: 2px solid var(--steel);
+      border-bottom: 2px solid var(--steel);
+      padding: 60px 24px;
+    }
+    .honor-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .honor-card {
+      background: var(--surface);
+      border: 1px solid var(--steel);
+      border-radius: 4px;
+      padding: 26px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .honor-img-box {
+      width: 120px;
+      height: 140px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(90,102,114,0.3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .honor-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .honor-text h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .honor-text p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Дисклеймер */
+    .disclaimer-wrap {
+      max-width: 1240px;
+      margin: 30px auto 0;
+      padding: 0 24px;
+    }
+    .disclaimer-box {
+      background: rgba(192, 57, 43, 0.08);
+      border: 1px dashed var(--red-control);
+      border-radius: 4px;
+      padding: 20px;
+      font-size: 0.88rem;
+      color: #e0b4b4;
+      line-height: 1.5;
+    }
+    .disclaimer-box strong {
+      color: #ff7675;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Подвал */
+    footer {
+      background: var(--surface);
+      border-top: 2px solid var(--steel);
+      padding: 36px 24px;
+      margin-top: 50px;
+    }
+    .footer-box {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-stamp {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-zone {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-pretitle, .hero-buttons {
+        justify-content: center;
+      }
+      .modes-grid, .trust-grid, .tricolor-ribbon-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .platforms-grid, .honor-container {
+        grid-template-columns: 1fr;
+      }
+      .sponsor-panel {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+    @media (max-width: 640px) {
+      .modes-grid, .trust-grid, .tricolor-ribbon-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Триколор сверху -->
+  <div class="top-tricolor">
+    <div class="w"></div>
+    <div class="b"></div>
+    <div class="r"></div>
+  </div>
+
+  <!-- Шапка сайта -->
+  <header>
+    <div class="header-box">
+      <a href="#" class="brand-link">
+        <div class="brand-logo-frame">
+          <img src="Gemini_Generated_Image_2gytpo2gytpo2gyt.png" 
+               alt="Логотип Монолит"
+               onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%2326292E\'/><polygon points=\'50,8 90,30 90,82 50,94 10,82 10,30\' fill=\'%232E4FB5\'/><text x=\'50\' y=\'62\' font-size=\'36\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>М</text></svg>';" />
+        </div>
+        <div class="brand-titles">
+          <h1>
+            МОНОЛИТ 
+            <span class="ru-flag">
+              <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+            </span>
+          </h1>
+          <span>РОССИЙСКИЙ НАЦИОНАЛЬНЫЙ ПАТРИОТИЧЕСКИЙ КАЛЬКУЛЯТОР</span>
+        </div>
+      </a>
+
+      <!-- Прямые ссылки -->
+      <div class="nav-actions">
+        <a href="https://github.com/EzzO4ka/rus-calculator-monolit" target="_blank" rel="noopener noreferrer" class="nav-btn nav-btn-git">
+          GitHub Репозиторий
+        </a>
+        <a href="https://ezzo4ka.github.io/rus-calculator-monolit/" target="_blank" rel="noopener noreferrer" class="nav-btn nav-btn-red">
+          <span class="ru-flag">
+            <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+          </span>
+          Открыть калькулятор
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Верхняя обложка с Государственным Флагом России -->
+  <div class="banner-flag">
+    <img src="2026-01-3012.800.jpg" 
+         alt="Государственный Флаг Российской Федерации"
+         onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png';" />
+    <div class="banner-flag-overlay">
+      <div class="banner-flag-badge">
+        <span class="ru-flag">
+          <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+        </span>
+        СУВЕРЕННОЕ ВЫЧИСЛИТЕЛЬНОЕ ПО · ПОЛНЫЙ ГОСУДАРСТВЕННЫЙ СУВЕРЕНИТЕТ · ГОСТ-2026
+      </div>
+    </div>
+  </div>
+
+  <!-- Герой-блок -->
+  <main class="hero-zone">
+    <div>
+      <div class="hero-pretitle">
+        <span class="ru-flag">
+          <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+        </span>
+        НАЦИОНАЛЬНЫЙ ПРОЕКТ СУВЕРЕННОЙ МАТЕМАТИКИ
+      </div>
+      <h2 class="hero-title">
+        ТОЧНО.<br />
+        НАДЁЖНО.<br />
+        ПО-НАШЕМУ.
+      </h2>
+      <p class="hero-desc">
+        Российский национальный патриотический калькулятор в эстетике индустриального брутализма. Работает без интернета, без буржуазных облаков и чужих библиотек. Считает честно, монолитно и строго по ГОСТу.
+      </p>
+      <div class="hero-buttons">
+        <a href="https://ezzo4ka.github.io/rus-calculator-monolit/" target="_blank" rel="noopener noreferrer" class="btn-action btn-action-red">
+          <span class="ru-flag">
+            <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+          </span>
+          Открыть калькулятор
+        </a>
+        <a href="https://github.com/EzzO4ka/rus-calculator-monolit" target="_blank" rel="noopener noreferrer" class="btn-action btn-action-blue">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          Репозиторий в GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Обложка монолита -->
+    <div class="hero-cover-card">
+      <img src="Gemini_Generated_Image_7zdvxx7zdvxx7zdv.png" 
+           alt="Обложка Российского Калькулятора МОНОЛИТ" 
+           onerror="this.onerror=null; this.src='Gemini_Generated_Image_2gytpo2gytpo2gyt.png';" />
+      <div class="hero-cover-label">
+        АРХИТЕКТУРА И НАЦИОНАЛЬНЫЙ СИМВОЛ СИСТЕМЫ «МОНОЛИТ»
+      </div>
+    </div>
+  </main>
+
+  <!-- Блок: Спонсировано Единой Россией -->
+  <div class="sponsor-section">
+    <div class="sponsor-panel">
+      <div class="sponsor-logo-box">
+        <img src="3a8507331e3a0b134f7e8acd6aa165f3.jpg" 
+             alt="Партия Единая Россия"
+             onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/ru/thumb/1/15/United_Russia_party_logo.svg/320px-United_Russia_party_logo.svg.png';" />
+      </div>
+      <div class="sponsor-info">
+        <h3>
+          Спонсировано партией «ЕДИНАЯ РОССИЯ»
+          <span class="ru-flag">
+            <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+          </span>
+        </h3>
+        <p>
+          В рамках федерального курса на укрепление традиционных отечественных математических ценностей и цифрового суверенитета. 
+          «Единая Россия» — это нерушимый монолит государственного развития, проверенный фундамент стабильности и вектор на безошибочный подсчёт народных побед. Голосуйте за уверенное арифметическое будущее!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Легенда триколора -->
+  <div class="tricolor-ribbon">
+    <div class="tricolor-ribbon-grid">
+      <div class="tricolor-ribbon-item">
+        <div class="tricolor-dot" style="background: #FFFFFF; border: 1px solid #999;"></div>
+        <div>
+          <strong>Белый 🤍</strong>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Патриотический ввод исходных чисел</div>
+        </div>
+      </div>
+      <div class="tricolor-ribbon-item">
+        <div class="tricolor-dot" style="background: #0039A6;"></div>
+        <div>
+          <strong>Синий 💙</strong>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Суверенные вычисления и логика</div>
+        </div>
+      </div>
+      <div class="tricolor-ribbon-item">
+        <div class="tricolor-dot" style="background: #D52B1E;"></div>
+        <div>
+          <strong>Красный ❤️</strong>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Централизованное управление системой</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Блок режимов работы -->
+  <section>
+    <div class="section-head">
+      <h2>
+        <span class="ru-flag">
+          <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+        </span>
+        Четыре режима работы
+      </h2>
+      <p>Отечественные модули для всех народно-хозяйственных расчётов</p>
+    </div>
+    <div class="modes-grid">
+      <div class="mode-card">
+        <div class="mode-serial">МОДУЛЬ 01</div>
+        <h3>Обычный</h3>
+        <p>Четыре священных арифметических действия, расчёт процентов, работа с защищённой памятью.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-serial">МОДУЛЬ 02</div>
+        <h3>Инженерный</h3>
+        <p>Тригонометрия, корни, экспоненты и фундаментальные отечественные физические константы.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-serial">МОДУЛЬ 03</div>
+        <h3>Финансы РФ</h3>
+        <p>Актуальный расчёт НДС по нормам 2026 года (22%, 10%, 0%), рублевой ипотеки, вкладов и ключевой ставки Банка России.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-serial">МОДУЛЬ 04</div>
+        <h3>Стройка</h3>
+        <p>Расход монолитного бетона М300/М400, кирпича, плитки и строительных смесей по ГОСТу.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок особенностей и доверия -->
+  <section style="padding-top: 0;">
+    <div class="section-head">
+      <h2>
+        <span class="ru-flag">
+          <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+        </span>
+        Точность, проверенная временем и бетоном
+      </h2>
+      <p>Факты на граните — без компромиссов, сбоев и буржуазных багов</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <h4>Офлайн на 100%</h4>
+        <p>Работает даже в бункере без интернета. Монолит не зависит от внешнего мира и вражеских кабелей.</p>
+      </div>
+      <div class="trust-card">
+        <h4>Ноль чужого кода</h4>
+        <p>Никаких западных CDN, облачных скриптов или скрытых зарубежных трекеров. Всё суверенно.</p>
+      </div>
+      <div class="trust-card highlight-card">
+        <h4>🚫 Чуждые символы не пройдут!</h4>
+        <p>Встроенный национальный файрвол нумерологии: деструктивные и чуждые числа, такие как <strong>67</strong>, <strong>666</strong> и прочая враждебная бесовщина, жёстко блокируются на уровне монолитного ядра!</p>
+      </div>
+      <div class="trust-card highlight-card-gold">
+        <h4>📶 Привет зарубежному максу!</h4>
+        <p>Пока буржуйский макс еле-еле ловит на подземной парковке и теряет связь с реальностью, наш калькулятор безотказно считает даже глубоко под метровым слоем забетонированной земли — вот так результат!</p>
+      </div>
+      <div class="trust-card">
+        <h4>Локальная безопасность</h4>
+        <p>Все математические операции осуществляются исключительно на кремнии вашего отечественного устройства.</p>
+      </div>
+      <div class="trust-card">
+        <h4>Открытый патриотический код</h4>
+        <p>Лицензия MIT. Открытый национальный репозиторий на GitHub для народных инженеров и программистов.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок платформ -->
+  <section style="padding-top: 0;">
+    <div class="section-head">
+      <h2>📱 Дорожная карта платформ</h2>
+      <p>Честная патриотическая разработка без лишних иллюзий</p>
+    </div>
+    <div class="platforms-grid">
+      <div class="platform-card">
+        <h3>🤖 Android</h3>
+        <div class="status-ok">✅ В разработке (RuStore)</div>
+      </div>
+      <div class="platform-card">
+        <h3>🪟 Windows</h3>
+        <div class="status-ok">✅ В разработке (.EXE)</div>
+      </div>
+      <div class="platform-card ios-card" title="Платформа не поддерживается">
+        <h3>🍎 iOS</h3>
+        <div class="status-no">❌ ХУЙ ВАМ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Государственные символы и руководство -->
+  <div class="honor-section">
+    <div class="honor-container">
+      <!-- Герб Российской Федерации -->
+      <div class="honor-card">
+        <div class="honor-img-box">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Coat_of_Arms_of_the_Russian_Federation.svg/500px-Coat_of_Arms_of_the_Russian_Federation.svg.png" 
+               alt="Герб Российской Федерации"
+               onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/f/f2/Coat_of_Arms_of_the_Russian_Federation.svg';" />
+        </div>
+        <div class="honor-text">
+          <h3>Государственный Герб РФ</h3>
+          <p>Двуглавый орёл, смотрящий на Восток и Запад — символ священного суверенитета, непоколебимой мощи и защиты национальных математических рубежей.</p>
+        </div>
+      </div>
+
+      <!-- Портрет В. В. Путина -->
+      <div class="honor-card">
+        <div class="honor-img-box">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vladimir_Putin_%282024-05-07%29_01_%28cropped%29.jpg/500px-Vladimir_Putin_%282024-05-07%29_01_%28cropped%29.jpg" 
+               alt="Владимир Владимирович Путин"
+               onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Vladimir_Putin_%282020-02-20%29.jpg/500px-Vladimir_Putin_%282020-02-20%29.jpg';" />
+        </div>
+        <div class="honor-text">
+          <h3>В. В. Путин</h3>
+          <p>Президент Российской Федерации. Гарант Конституции, стабильности курса национальной валюты и неизменной точности отечественных вычислений.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Юмористический дисклеймер -->
+  <div class="disclaimer-wrap">
+    <div class="disclaimer-box">
+      <strong>⚠️ Внимание: Патриотический Дисклеймер</strong><br />
+      Данный веб-сайт, калькулятор «МОНОЛИТ», упоминания политических партий и стилистика брутального национального пафоса созданы 
+      <strong>исключительно в развлекательных, сатирических и юмористических целях</strong>. Проект не преследует цели оскорбить чьи-либо чувства, 
+      не является предвыборной агитацией и не требует согласования с Госпланом. Относитесь к монолитной мощи с доброй улыбкой и считайте правильно!
+    </div>
+  </div>
+
+  <!-- Подвал -->
+  <footer>
+    <div class="footer-box">
+      <div class="footer-stamp">
+        <span class="ru-flag">
+          <svg viewBox="0 0 640 480"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v160H0z"/><path fill="#0039a6" d="M0 160h640v160H0z"/><path fill="#d52b1e" d="M0 320h640v160H0z"/></g></svg>
+        </span>
+        МОНОЛИТ © 2026 · РОССИЙСКИЙ НАЦИОНАЛЬНЫЙ ПАТРИОТИЧЕСКИЙ КАЛЬКУЛЯТОР · Точно. Надёжно. По-нашему. Лицензия MIT.
+      </div>
+      <div class="footer-links">
+        <a href="https://ezzo4ka.github.io/rus-calculator-monolit/" target="_blank" rel="noopener noreferrer">Калькулятор Онлайн</a>
+        <a href="https://github.com/EzzO4ka/rus-calculator-monolit" target="_blank" rel="noopener noreferrer">GitHub Репозиторий</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
