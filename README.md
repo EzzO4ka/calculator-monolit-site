@@ -1,5 +1,6 @@
 # 🏛️ Национальный калькулятор «Монолит»
-alt="Gemini_Generated_Image_7zdvxx7zdvxx7zdv" src="https://github.com/user-attachments/assets/d580e589-8c41-46f4-acb2-c63a5318dc96" />
+<img width="2816" height="1536" alt="Gemini_Generated_Image_7zdvxx7zdvxx7zdv" src="https://github.com/user-attachments/assets/5023e536-a765-407c-a16b-8ae03100d06f" />
+
 > **«Точно. Надёжно. По-нашему.»**
 > Инструмент точных вычислений в эстетике индустриального брутализма
 > и функциональной эргономике российского триколора.
@@ -21,4 +22,5 @@ alt="Gemini_Generated_Image_7zdvxx7zdvxx7zdv" src="https://github.com/user-attac
 - **Блок доверия** — офлайн-работа, никаких зависимостей, открытый код.
 - **Блок «В разработке»** — честно про платформы.
 
-🔗 **Открыть сайт:** [ezzo4ka.github.io/rus-calculator-monolit](https://ezzo4ka.github.io/rus-calculator-monolit/)<img width="2816" height="1536" 
+🔗 **Открыть сайт:** [ezzo4ka.github.io/rus-calculator-monolit](https://ezzo4ka.github.io/calculator-monolit-site/) 
+🔗 **Открыть калькулятор:** [ezzo4ka.github.io/calculator-monolit-site](https://ezzo4ka.github.io/rus-calculator-monolit/)
