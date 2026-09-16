@@ -95,7 +95,7 @@
       width: 48px;
       height: 48px;
       border-radius: 4px;
-      background: #111;
+      background: #15171a;
       border: 1px solid var(--steel);
       display: flex;
       align-items: center;
@@ -103,7 +103,7 @@
       overflow: hidden;
       flex-shrink: 0;
     }
-    .brand-logo-frame img {
+    .brand-logo-frame img, .brand-logo-frame svg {
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -167,12 +167,12 @@
       color: #fff;
     }
 
-    /* Обложка с флагом России */
+    /* Верхний флаг */
     .banner-flag {
       width: 100%;
       height: 380px;
       position: relative;
-      background: #000;
+      background: #0f1114;
       overflow: hidden;
       border-bottom: 3px solid var(--steel);
     }
@@ -186,7 +186,7 @@
     .banner-flag-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(28,30,34,0.1) 0%, rgba(28,30,34,0.7) 65%, var(--bg) 100%);
+      background: linear-gradient(180deg, rgba(28,30,34,0.15) 0%, rgba(28,30,34,0.7) 65%, var(--bg) 100%);
       display: flex;
       align-items: flex-end;
       padding: 30px;
@@ -290,7 +290,7 @@
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
-    .hero-cover-card img {
+    .hero-cover-card img, .hero-cover-card svg {
       width: 100%;
       max-width: 440px;
       height: auto;
@@ -307,7 +307,7 @@
       padding-top: 10px;
     }
 
-    /* Спонсорский блок «Единая Россия» */
+    /* Спонсорский блок: Единая Россия */
     .sponsor-section {
       max-width: 1240px;
       margin: 20px auto 40px;
@@ -334,11 +334,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 6px;
     }
     .sponsor-logo-box img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     .sponsor-info h3 {
       font-family: var(--font-heading);
@@ -388,7 +389,7 @@
       flex-shrink: 0;
     }
 
-    /* Общие секции */
+    /* Секции */
     section {
       max-width: 1240px;
       margin: 0 auto;
@@ -447,7 +448,7 @@
       color: var(--text-muted);
     }
 
-    /* Блок доверия и особенностей */
+    /* Доверие и юмор */
     .trust-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -518,7 +519,7 @@
       margin-top: 6px;
     }
 
-    /* Символы суверенитета: Герб и Президент */
+    /* Символы: Герб и Президент */
     .honor-section {
       background: #181a1d;
       border-top: 2px solid var(--steel);
@@ -672,9 +673,10 @@
     <div class="header-box">
       <a href="#" class="brand-link">
         <div class="brand-logo-frame">
+          <!-- Логотип: проверяет локальный файл, при отсутствии выводит чистый SVG-герб Монолит -->
           <img src="Gemini_Generated_Image_2gytpo2gytpo2gyt.png" 
                alt="Логотип Монолит"
-               onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%2326292E\'/><polygon points=\'50,8 90,30 90,82 50,94 10,82 10,30\' fill=\'%232E4FB5\'/><text x=\'50\' y=\'62\' font-size=\'36\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>М</text></svg>';" />
+               onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/EzzO4ka/rus-calculator-monolit/main/Gemini_Generated_Image_2gytpo2gytpo2gyt.png'; this.onerror=()=>{this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><polygon points=\'50,8 90,28 90,82 50,96 10,82 10,28\' fill=\'%232E4FB5\' stroke=\'%23fff\' stroke-width=\'2\'/><path d=\'M10,28 L50,52 L90,28 M50,52 L50,96\' stroke=\'%23fff\' stroke-width=\'2\' fill=\'none\'/><text x=\'50\' y=\'78\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fff\' text-anchor=\'middle\' font-family=\'sans-serif\'>2026</text></svg>';};" />
         </div>
         <div class="brand-titles">
           <h1>
@@ -702,11 +704,11 @@
     </div>
   </header>
 
-  <!-- Верхняя обложка с Государственным Флагом России -->
+  <!-- Верхняя обложка с флагом РФ -->
   <div class="banner-flag">
     <img src="2026-01-3012.800.jpg" 
          alt="Государственный Флаг Российской Федерации"
-         onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png';" />
+         onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1600px-Flag_of_Russia.svg.png';" />
     <div class="banner-flag-overlay">
       <div class="banner-flag-badge">
         <span class="ru-flag">
@@ -752,7 +754,7 @@
     <div class="hero-cover-card">
       <img src="Gemini_Generated_Image_7zdvxx7zdvxx7zdv.png" 
            alt="Обложка Российского Калькулятора МОНОЛИТ" 
-           onerror="this.onerror=null; this.src='Gemini_Generated_Image_2gytpo2gytpo2gyt.png';" />
+           onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/EzzO4ka/rus-calculator-monolit/main/Gemini_Generated_Image_7zdvxx7zdvxx7zdv.png'; this.onerror=()=>{this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 300\'><rect width=\'400\' height=\'300\' fill=\'%2326292E\' rx=\'6\'/><polygon points=\'200,40 310,105 310,215 200,265 90,215 90,105\' fill=\'%232E4FB5\'/><text x=\'200\' y=\'145\' font-size=\'36\' font-weight=\'bold\' fill=\'%23fff\' text-anchor=\'middle\' font-family=\'sans-serif\'>МОНОЛИТ</text><text x=\'200\' y=\'185\' font-size=\'14\' fill=\'%23D8DADF\' text-anchor=\'middle\' font-family=\'sans-serif\'>РОССИЙСКИЙ КАЛЬКУЛЯТОР</text></svg>';};" />
       <div class="hero-cover-label">
         АРХИТЕКТУРА И НАЦИОНАЛЬНЫЙ СИМВОЛ СИСТЕМЫ «МОНОЛИТ»
       </div>
@@ -765,7 +767,7 @@
       <div class="sponsor-logo-box">
         <img src="3a8507331e3a0b134f7e8acd6aa165f3.jpg" 
              alt="Партия Единая Россия"
-             onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/ru/thumb/1/15/United_Russia_party_logo.svg/320px-United_Russia_party_logo.svg.png';" />
+             onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/EzzO4ka/rus-calculator-monolit/main/3a8507331e3a0b134f7e8acd6aa165f3.jpg'; this.onerror=()=>{this.src='https://upload.wikimedia.org/wikipedia/ru/thumb/1/15/United_Russia_party_logo.svg/320px-United_Russia_party_logo.svg.png';};" />
       </div>
       <div class="sponsor-info">
         <h3>
@@ -912,8 +914,7 @@
       <div class="honor-card">
         <div class="honor-img-box">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Coat_of_Arms_of_the_Russian_Federation.svg/500px-Coat_of_Arms_of_the_Russian_Federation.svg.png" 
-               alt="Герб Российской Федерации"
-               onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/f/f2/Coat_of_Arms_of_the_Russian_Federation.svg';" />
+               alt="Герб Российской Федерации" />
         </div>
         <div class="honor-text">
           <h3>Государственный Герб РФ</h3>
@@ -925,8 +926,7 @@
       <div class="honor-card">
         <div class="honor-img-box">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vladimir_Putin_%282024-05-07%29_01_%28cropped%29.jpg/500px-Vladimir_Putin_%282024-05-07%29_01_%28cropped%29.jpg" 
-               alt="Владимир Владимирович Путин"
-               onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Vladimir_Putin_%282020-02-20%29.jpg/500px-Vladimir_Putin_%282020-02-20%29.jpg';" />
+               alt="Владимир Владимирович Путин" />
         </div>
         <div class="honor-text">
           <h3>В. В. Путин</h3>
